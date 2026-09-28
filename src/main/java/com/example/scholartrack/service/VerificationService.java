@@ -1,8 +1,10 @@
 package com.example.scholartrack.service;
 
+import com.example.scholartrack.entity.Application;
 import com.example.scholartrack.entity.Verification;
-import com.example.scholartrack.repository.VerificationRepository;
 import com.example.scholartrack.exception.ResourceNotFoundException;
+import com.example.scholartrack.repository.ApplicationRepository;
+import com.example.scholartrack.repository.VerificationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,27 +14,45 @@ import java.util.Optional;
 public class VerificationService {
 
     private final VerificationRepository verificationRepository;
+    private final ApplicationRepository applicationRepository;
 
-    public VerificationService(VerificationRepository verificationRepository) {
+    public VerificationService(
+            VerificationRepository verificationRepository,
+            ApplicationRepository applicationRepository) {
+
         this.verificationRepository = verificationRepository;
+        this.applicationRepository = applicationRepository;
     }
 
-    // CREATE VERIFICATION
-    public Verification createVerification(Verification verification) {
+    public Verification createVerification(
+            Verification verification) {
+
+        Long applicationId =
+                verification.getApplication().getId();
+
+        Application application =
+                applicationRepository.findById(applicationId)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Application not found"
+                                ));
+
+        verification.setApplication(application);
+
         return verificationRepository.save(verification);
     }
 
-    // GET ALL VERIFICATIONS
     public List<Verification> getAllVerifications() {
+
         return verificationRepository.findAll();
     }
 
-    // GET VERIFICATION BY ID
-    public Optional<Verification> getVerificationById(Long id) {
+    public Optional<Verification> getVerificationById(
+            Long id) {
+
         return verificationRepository.findById(id);
     }
 
-    // UPDATE VERIFICATION
     public Verification updateVerification(
             Long id,
             Verification verification) {
@@ -44,9 +64,17 @@ public class VerificationService {
                                         "Verification not found"
                                 ));
 
-        existingVerification.setApplication(
-                verification.getApplication()
-        );
+        Long applicationId =
+                verification.getApplication().getId();
+
+        Application application =
+                applicationRepository.findById(applicationId)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Application not found"
+                                ));
+
+        existingVerification.setApplication(application);
 
         existingVerification.setStatus(
                 verification.getStatus()
@@ -56,6 +84,8 @@ public class VerificationService {
                 verification.getRemarks()
         );
 
-        return verificationRepository.save(existingVerification);
+        return verificationRepository.save(
+                existingVerification
+        );
     }
 }

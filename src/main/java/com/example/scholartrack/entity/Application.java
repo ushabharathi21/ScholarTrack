@@ -1,7 +1,6 @@
 package com.example.scholartrack.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -14,13 +13,11 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Valid
     @NotNull(message = "Student is required")
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @Valid
     @NotNull(message = "Scheme is required")
     @ManyToOne
     @JoinColumn(name = "scheme_id", nullable = false)
@@ -35,8 +32,7 @@ public class Application {
 
     private String remarks;
 
-    public Application() {
-    }
+    public Application() {}
 
     public Long getId() {
         return id;

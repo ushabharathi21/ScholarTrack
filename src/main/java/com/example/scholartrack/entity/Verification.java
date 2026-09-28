@@ -1,7 +1,6 @@
 package com.example.scholartrack.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,7 +12,6 @@ public class Verification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Valid
     @NotNull(message = "Application is required")
     @OneToOne
     @JoinColumn(name = "application_id", nullable = false)
@@ -25,8 +23,7 @@ public class Verification {
     @NotBlank(message = "Verification remarks are required")
     private String remarks;
 
-    public Verification() {
-    }
+    public Verification() {}
 
     public Long getId() {
         return id;

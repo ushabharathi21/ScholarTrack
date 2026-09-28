@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ScholarTrack | Scholarship Management</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">S</div>
+
+            <div>
+                <h2>ScholarTrack</h2>
+                <span>Scholarship Management</span>
+            </div>
+        </div>
+
+        <nav>
+
+            <button class="nav-item active" data-section="dashboard">
+                <span>⌂</span>
+                Dashboard
+            </button>
+
+            <button class="nav-item" data-section="students">
+                <span>👤</span>
+                Students
+            </button>
+
+            <button class="nav-item" data-section="schemes">
+                <span>🎓</span>
+                Schemes
+            </button>
+
+            <button class="nav-item" data-section="applications">
+                <span>📄</span>
+                Applications
+            </button>
+
+            <button class="nav-item" data-section="verifications">
+                <span>✓</span>
+                Verifications
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+                Backend Connected
+            </div>
+
+            <small>ScholarTrack v1.0</small>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <h1 id="pageTitle">Dashboard</h1>
+
+                <p id="pageDescription">
+                    Overview of scholarship applications and eligibility
+                </p>
+            </div>
+
+            <div class="date-box">
+                📅 <span id="currentDate"></span>
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="section active">
+
+            <div class="welcome">
+
+                <div>
+
+                    <p class="eyebrow">
+                        SCHOLARSHIP MANAGEMENT
+                    </p>
+
+                    <h2>
+                        Welcome to ScholarTrack
+                    </h2>
+
+                    <p>
+                        Manage students, scholarship schemes,
+                        applications, verification and disbursement.
+                    </p>
+
+                </div>
+
+                <div class="welcome-icon">
+                    🎓
+                </div>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">👤</div>
+
+                    <div>
+                        <span>Total Students</span>
+                        <strong id="studentCount">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">🎓</div>
+
+                    <div>
+                        <span>Scholarship Schemes</span>
+                        <strong id="schemeCount">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">📄</div>
+
+                    <div>
+                        <span>Applications</span>
+                        <strong id="applicationCount">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+
+                    <div>
+                        <span>Verifications</span>
+                        <strong id="verificationCount">0</strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Recent Applications</h3>
+                            <p>Latest scholarship applications</p>
+                        </div>
+
+                        <button
+                                class="small-btn"
+                                onclick="showSection('applications')">
+
+                            View All
+
+                        </button>
+
+                    </div>
+
+                    <div id="recentApplications"></div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Scholarship Workflow</h3>
+                            <p>Application processing stages</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="workflow">
+
+                        <div class="workflow-item">
+
+                            <div class="workflow-number">
+                                1
+                            </div>
+
+                            <div>
+                                <strong>Student Registration</strong>
+                                <span>
+                                    Student information recorded
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="workflow-line"></div>
+
+
+                        <div class="workflow-item">
+
+                            <div class="workflow-number">
+                                2
+                            </div>
+
+                            <div>
+                                <strong>Eligibility Check</strong>
+                                <span>
+                                    Income and marks validated
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="workflow-line"></div>
+
+
+                        <div class="workflow-item">
+
+                            <div class="workflow-number">
+                                3
+                            </div>
+
+                            <div>
+                                <strong>Verification</strong>
+                                <span>
+                                    Documents reviewed
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="workflow-line"></div>
+
+
+                        <div class="workflow-item">
+
+                            <div class="workflow-number">
+                                4
+                            </div>
+
+                            <div>
+                                <strong>Disbursement</strong>
+                                <span>
+                                    Scholarship amount released
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STUDENTS -->
+        <section id="students" class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        STUDENT MANAGEMENT
+                    </p>
+
+                    <h2>Students</h2>
+
+                    <p>
+                        Manage registered students and academic information.
+                    </p>
+
+                </div>
+
+
+                <button
+                        class="primary-btn"
+                        onclick="openStudentModal()">
+
+                    + Add Student
+
+                </button>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div
+                        id="studentsData"
+                        class="table-wrapper">
+
+                    Loading students...
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SCHEMES -->
+        <section id="schemes" class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        SCHOLARSHIP MANAGEMENT
+                    </p>
+
+                    <h2>Scholarship Schemes</h2>
+
+                    <p>
+                        Manage scholarship eligibility criteria and amounts.
+                    </p>
+
+                </div>
+
+
+                <button
+                        class="primary-btn"
+                        onclick="openSchemeModal()">
+
+                    + Add Scheme
+
+                </button>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div
+                        id="schemesData"
+                        class="table-wrapper">
+
+                    Loading schemes...
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- APPLICATIONS -->
+        <section id="applications" class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        APPLICATION MANAGEMENT
+                    </p>
+
+                    <h2>Applications</h2>
+
+                    <p>
+                        Track eligibility and scholarship disbursement.
+                    </p>
+
+                </div>
+
+
+                <button
+                        class="primary-btn"
+                        onclick="openApplicationModal()">
+
+                    + New Application
+
+                </button>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div
+                        id="applicationsData"
+                        class="table-wrapper">
+
+                    Loading applications...
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- VERIFICATIONS -->
+        <section id="verifications" class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        VERIFICATION MANAGEMENT
+                    </p>
+
+                    <h2>Verifications</h2>
+
+                    <p>
+                        Review and approve scholarship applications.
+                    </p>
+
+                </div>
+
+
+                <button
+                        class="primary-btn"
+                        onclick="openVerificationModal()">
+
+                    + Add Verification
+
+                </button>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div
+                        id="verificationsData"
+                        class="table-wrapper">
+
+                    Loading verifications...
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ================= MODAL ================= -->
+
+<div
+        id="modalOverlay"
+        class="modal-overlay">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <h2 id="modalTitle">
+                    Add Record
+                </h2>
+
+                <p id="modalSubtitle">
+                    Enter the required information
+                </p>
+            </div>
+
+            <button
+                    class="close-btn"
+                    onclick="closeModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <form id="modalForm">
+
+            <div
+                    id="formFields"
+                    class="form-grid">
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                        type="button"
+                        class="cancel-btn"
+                        onclick="closeModal()">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                        type="submit"
+                        class="primary-btn">
+
+                    Save
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div id="toast" class="toast"></div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
