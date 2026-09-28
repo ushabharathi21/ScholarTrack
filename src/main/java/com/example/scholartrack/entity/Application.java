@@ -1,6 +1,8 @@
 package com.example.scholartrack.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -12,14 +14,19 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Valid
+    @NotNull(message = "Student is required")
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
+    @Valid
+    @NotNull(message = "Scheme is required")
     @ManyToOne
     @JoinColumn(name = "scheme_id", nullable = false)
     private Scheme scheme;
 
+    @NotNull(message = "Application date is required")
     private LocalDate applicationDate;
 
     private String status;

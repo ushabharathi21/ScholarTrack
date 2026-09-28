@@ -1,5 +1,6 @@
 package com.example.scholartrack.service;
 
+import com.example.scholartrack.exception.ResourceNotFoundException;
 import com.example.scholartrack.entity.Scheme;
 import com.example.scholartrack.repository.SchemeRepository;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,8 @@ public class SchemeService {
     public Scheme updateScheme(Long id, Scheme scheme) {
 
         Scheme existingScheme = schemeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Scheme not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Scheme not found"));
 
         existingScheme.setName(scheme.getName());
         existingScheme.setDescription(scheme.getDescription());
@@ -45,7 +47,7 @@ public class SchemeService {
     public void deleteScheme(Long id) {
 
         if (!schemeRepository.existsById(id)) {
-            throw new RuntimeException("Scheme not found");
+            throw new ResourceNotFoundException("Scheme not found");
         }
 
         schemeRepository.deleteById(id);

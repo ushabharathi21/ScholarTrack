@@ -3,6 +3,8 @@ package com.example.scholartrack.service;
 import com.example.scholartrack.entity.Application;
 import com.example.scholartrack.entity.Student;
 import com.example.scholartrack.entity.Scheme;
+import com.example.scholartrack.entity.Verification;
+import com.example.scholartrack.exception.ResourceNotFoundException;
 import com.example.scholartrack.repository.ApplicationRepository;
 import com.example.scholartrack.repository.StudentRepository;
 import com.example.scholartrack.repository.SchemeRepository;
@@ -40,14 +42,16 @@ public class ApplicationService {
 
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() ->
-                        new RuntimeException("Student not found"));
+                        new ResourceNotFoundException("Student not found"));
 
         Scheme scheme = schemeRepository.findById(schemeId)
                 .orElseThrow(() ->
-                        new RuntimeException("Scheme not found"));
+                        new ResourceNotFoundException("Scheme not found"));
 
         application.setStudent(student);
         application.setScheme(scheme);
+
+        // CHECK ELIGIBILITY
 
         boolean incomeEligible =
                 student.getIncome() <= scheme.getMaxIncome();
@@ -108,15 +112,28 @@ public class ApplicationService {
         Application existingApplication =
                 applicationRepository.findById(id)
                         .orElseThrow(() ->
-                                new RuntimeException("Application not found"));
+                                new ResourceNotFoundException(
+                                        "Application not found"
+                                ));
 
-        existingApplication.setStudent(
-                application.getStudent()
-        );
+        // GET COMPLETE STUDENT FROM DATABASE
 
-        existingApplication.setScheme(
-                application.getScheme()
-        );
+        Long studentId = application.getStudent().getId();
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Student not found"));
+
+        // GET COMPLETE SCHEME FROM DATABASE
+
+        Long schemeId = application.getScheme().getId();
+
+        Scheme scheme = schemeRepository.findById(schemeId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Scheme not found"));
+
+        existingApplication.setStudent(student);
+        existingApplication.setScheme(scheme);
 
         existingApplication.setApplicationDate(
                 application.getApplicationDate()
@@ -130,9 +147,10 @@ public class ApplicationService {
                 application.getDisbursementStatus();
 
         // CHECK VERIFICATION BEFORE COMPLETING DISBURSEMENT
+
         if ("COMPLETED".equalsIgnoreCase(newDisbursementStatus)) {
 
-            Optional<com.example.scholartrack.entity.Verification> verification =
+            Optional<Verification> verification =
                     verificationRepository.findByApplicationId(id);
 
             if (verification.isEmpty()) {
@@ -167,7 +185,7 @@ public class ApplicationService {
 
         if (!applicationRepository.existsById(id)) {
 
-            throw new RuntimeException(
+            throw new ResourceNotFoundException(
                     "Application not found"
             );
         }

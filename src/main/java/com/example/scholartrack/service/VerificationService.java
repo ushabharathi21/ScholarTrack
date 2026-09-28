@@ -2,6 +2,7 @@ package com.example.scholartrack.service;
 
 import com.example.scholartrack.entity.Verification;
 import com.example.scholartrack.repository.VerificationRepository;
+import com.example.scholartrack.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,24 +17,32 @@ public class VerificationService {
         this.verificationRepository = verificationRepository;
     }
 
+    // CREATE VERIFICATION
     public Verification createVerification(Verification verification) {
         return verificationRepository.save(verification);
     }
 
+    // GET ALL VERIFICATIONS
     public List<Verification> getAllVerifications() {
         return verificationRepository.findAll();
     }
 
+    // GET VERIFICATION BY ID
     public Optional<Verification> getVerificationById(Long id) {
         return verificationRepository.findById(id);
     }
 
-    public Verification updateVerification(Long id, Verification verification) {
+    // UPDATE VERIFICATION
+    public Verification updateVerification(
+            Long id,
+            Verification verification) {
 
         Verification existingVerification =
                 verificationRepository.findById(id)
                         .orElseThrow(() ->
-                                new RuntimeException("Verification not found"));
+                                new ResourceNotFoundException(
+                                        "Verification not found"
+                                ));
 
         existingVerification.setApplication(
                 verification.getApplication()

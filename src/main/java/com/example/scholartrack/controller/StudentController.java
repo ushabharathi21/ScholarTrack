@@ -2,6 +2,7 @@ package com.example.scholartrack.controller;
 
 import com.example.scholartrack.entity.Student;
 import com.example.scholartrack.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,34 +18,43 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    // CREATE STUDENT
     @PostMapping
-    public Student createStudent(@RequestBody Student student) {
+    public Student createStudent(
+            @Valid @RequestBody Student student) {
+
         return studentService.createStudent(student);
     }
 
+    // GET ALL STUDENTS
     @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
     }
 
+    // GET STUDENT BY ID
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
+    public ResponseEntity<Student> getStudentById(
+            @PathVariable Long id) {
 
         return studentService.getStudentById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // UPDATE STUDENT
     @PutMapping("/{id}")
     public Student updateStudent(
             @PathVariable Long id,
-            @RequestBody Student student) {
+            @Valid @RequestBody Student student) {
 
         return studentService.updateStudent(id, student);
     }
 
+    // DELETE STUDENT
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStudent(
+            @PathVariable Long id) {
 
         studentService.deleteStudent(id);
 

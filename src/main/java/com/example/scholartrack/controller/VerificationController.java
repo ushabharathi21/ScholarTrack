@@ -2,6 +2,7 @@ package com.example.scholartrack.controller;
 
 import com.example.scholartrack.entity.Verification;
 import com.example.scholartrack.service.VerificationService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,19 +18,21 @@ public class VerificationController {
         this.verificationService = verificationService;
     }
 
+    // CREATE VERIFICATION
     @PostMapping
     public Verification createVerification(
-            @RequestBody Verification verification) {
+            @Valid @RequestBody Verification verification) {
 
         return verificationService.createVerification(verification);
     }
 
+    // GET ALL VERIFICATIONS
     @GetMapping
     public List<Verification> getAllVerifications() {
-
         return verificationService.getAllVerifications();
     }
 
+    // GET VERIFICATION BY ID
     @GetMapping("/{id}")
     public ResponseEntity<Verification> getVerificationById(
             @PathVariable Long id) {
@@ -39,10 +42,11 @@ public class VerificationController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // UPDATE VERIFICATION
     @PutMapping("/{id}")
     public Verification updateVerification(
             @PathVariable Long id,
-            @RequestBody Verification verification) {
+            @Valid @RequestBody Verification verification) {
 
         return verificationService.updateVerification(id, verification);
     }
